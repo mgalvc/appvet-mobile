@@ -1,0 +1,38 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>{{ product.name }}</ion-title>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card>
+        <ion-card-header>
+            <ion-img [src]="product.picture"></ion-img>
+            <ion-card-subtitle>
+                <ion-chip color="tertiary">
+                    <ion-label>{{ product.category }}</ion-label>
+                </ion-chip>
+                <ion-chip color="primary" *ngIf="product.subcategory">
+                    <ion-label>{{ product.subcategory }}</ion-label>
+                </ion-chip>
+                <ion-chip color="secondary" *ngIf="product.brand">
+                    <ion-label>{{ product.brand.description }}</ion-label>
+                </ion-chip>
+            </ion-card-subtitle>
+            <ion-card-title>R$ {{ product.price }}</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>{{ product.description }}</ion-card-content>
+    </ion-card>
+
+    <div>
+        <ion-button [disabled]="product.quantity === 0" (click)="addToCart()" padding-start padding-end expand="block"
+                    color="success">
+            Adicionar
+            <ion-icon slot="end" name="cart"></ion-icon>
+        </ion-button>
+    </div>
+</ion-content>

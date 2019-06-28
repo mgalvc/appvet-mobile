@@ -1,0 +1,35 @@
+<ion-content padding>
+    <ion-grid>
+        <ion-row justify-content-center>
+            <ion-col align-self-center>
+                <div>
+                    <ion-img class="logo" src="/assets/logo.png"></ion-img>
+                </div>
+                <div padding>
+                    <ion-item>
+                        <ion-label color="primary"><ion-icon name="mail"></ion-icon></ion-label>
+                        <ion-input name="email" type="email" inputmode="email" placeholder="Email"
+                                   [(ngModel)]="email"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label color="primary"><ion-icon name="lock"></ion-icon></ion-label>
+                        <ion-input name="password" type="password" placeholder="Senha"
+                                   [(ngModel)]="password"></ion-input>
+                    </ion-item>
+                </div>
+                <div padding-horizontal>
+                    <div text-end="">
+                        <a class="forgot-password" [routerLink]="['/register']">Esqueci minha senha</a>
+                    </div>
+                </div>
+                <div padding>
+                    <ion-button [disabled]="blankFields()" size="medium" type="submit" (click)="login()" expand="block">
+                        Entrar</ion-button>
+                    <div margin-top="30px" padding text-center>
+                        <a class="register" [routerLink]="['/register']">Quero me registrar</a>
+                    </div>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

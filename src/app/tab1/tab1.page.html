@@ -1,0 +1,56 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-searchbar animated [(ngModel)]="searchTerm" (ionChange)="doSearch()" color="primary"
+                       class="search" placeholder="Procure"></ion-searchbar>
+        <ion-buttons slot="secondary">
+            <ion-button color="light" (click)="openFilters()">
+                <ion-icon slot="icon-only" name="options"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <div *ngIf="filtersToShow()" padding-top padding-start>
+        <ion-chip *ngIf="filters.category" color="tertiary">
+            <ion-label>{{ filters.category }}</ion-label>
+        </ion-chip>
+
+        <!--<ion-chip *ngIf="filterByPrice()" color="tertiary">-->
+            <!--<ion-label>{{ displayOrder() }}</ion-label>-->
+        <!--</ion-chip>-->
+    </div>
+
+
+    <div class="cards">
+        <div class="card" *ngFor="let product of filteredProducts">
+            <ion-card [button]="product.quantity > 0" (click)="selectProduct(product)">
+                <ion-card-header>
+                    <ion-img [src]="product.picture"></ion-img>
+                    <ion-card-title>R$ {{ product.price }}</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                    {{ product.name }}
+                    <ion-badge margin-top color="warning" *ngIf="product.quantity === 0">Indisponível</ion-badge>
+                </ion-card-content>
+            </ion-card>
+        </div>
+    </div>
+
+
+    <!--<ion-list lines="inset">-->
+        <!--<ion-item button (click)="selectProduct(product)" *ngFor="let product of filteredProducts">-->
+            <!--<ion-avatar slot="start">-->
+                <!--<img [src]="product.picture">-->
+            <!--</ion-avatar>-->
+            <!--<ion-label color="medium" text-wrap>{{ product.name }}</ion-label>-->
+            <!--<p class="price">-->
+                <!--R$ {{ product.price }}-->
+            <!--</p>-->
+        <!--</ion-item>-->
+    <!--</ion-list>-->
+</ion-content>

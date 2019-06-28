@@ -1,0 +1,45 @@
+<ion-header>
+    <ion-toolbar color="tertiary">
+        <ion-buttons slot="end">
+            <ion-button color="light" (click)="closeFilters(true)">
+                <ion-icon slot="icon-only" name="checkmark"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+
+        <ion-buttons slot="start">
+            <ion-button color="light" (click)="closeFilters(false)">
+                <ion-icon slot="icon-only" name="close"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <ion-radio-group allowEmptySelection [(ngModel)]="filters.category">
+            <ion-list-header>
+                <ion-label>Categorias</ion-label>
+            </ion-list-header>
+
+            <ion-item *ngFor="let category of categories">
+                <ion-label>{{ category }}</ion-label>
+                <ion-radio [checked]="filters.category === category" mode="ios" slot="start"
+                           [value]="category"></ion-radio>
+            </ion-item>
+        </ion-radio-group>
+    </ion-list>
+
+    <!--<ion-list>-->
+        <!--<ion-radio-group [(ngModel)]="filters.order">-->
+            <!--<ion-list-header>-->
+                <!--<ion-label>Ordenar por</ion-label>-->
+            <!--</ion-list-header>-->
+
+            <!--<ion-item *ngFor="let order of orders">-->
+                <!--<ion-label>{{ order.display }}</ion-label>-->
+                <!--<ion-radio [checked]="order.value === filters.order" mode="ios" slot="start"-->
+                           <!--[value]="order.value"></ion-radio>-->
+            <!--</ion-item>-->
+        <!--</ion-radio-group>-->
+    <!--</ion-list>-->
+</ion-content>

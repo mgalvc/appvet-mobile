@@ -1,0 +1,78 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-title>
+            Pedidos
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-segment (ionChange)="change($event)" [(ngModel)]="selectedSegment">
+        <ion-segment-button value="open">
+            <ion-label>Em aberto</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="sent">
+            <ion-label>Enviados</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="received">
+            <ion-label>Recebidos</ion-label>
+        </ion-segment-button>
+    </ion-segment>
+
+    <div>
+        <div *ngIf="selectedSegment === 'open'">
+            <ion-list>
+                <ion-item (click)="openActions(item)" button *ngFor="let item of
+                cartService.openItems">
+                    <ion-avatar slot="start">
+                        <img [src]="item.picture">
+                    </ion-avatar>
+                    <ion-label text-wrap>
+                        <h3>{{ item.name }}</h3>
+                        <p>R$ {{ item.price }}</p>
+                        <p [class]="item.status">{{ getStatus(item.status) }}</p>
+                    </ion-label>
+                    <ion-thumbnail slot="end">
+                        <p class="quantity">Qtd: {{ item.quantity }}</p>
+                    </ion-thumbnail>
+                </ion-item>
+            </ion-list>
+
+            <ion-list>
+                <ion-item disabled *ngFor="let item of cartService.waitingItems">
+                    <ion-avatar slot="start">
+                        <img [src]="item.picture">
+                    </ion-avatar>
+                    <ion-label text-wrap>
+                        <h3>{{ item.name }}</h3>
+                        <p>R$ {{ item.price }}</p>
+                        <p [class]="item.status">{{ getStatus(item.status) }}</p>
+                    </ion-label>
+                    <ion-thumbnail slot="end">
+                        <p class="quantity">Qtd: {{ item.quantity }}</p>
+                    </ion-thumbnail>
+                </ion-item>
+            </ion-list>
+        </div>
+
+        <div *ngIf="selectedSegment === 'sent'">
+            Vai exibir os pedidos já enviados
+        </div>
+
+        <div *ngIf="selectedSegment === 'received'">
+            Vai exibir os pedidos já recebidos
+        </div>
+    </div>
+</ion-content>
+
+<ion-footer *ngIf="selectedSegment === 'open'">
+    <ion-toolbar>
+        <ion-title>Total: R$ {{ totalPrice() }}</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="confirm()" [disabled]="noOpenItems()" color="success">
+                Confirmar
+                <ion-icon slot="start" name="checkmark"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-footer>

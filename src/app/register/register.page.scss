@@ -1,0 +1,10 @@
+ion-item {
+    margin-top: 20px;
+    --highlight-color-valid: var(--ion-color-primary);
+}
+
+.error {
+    color: var(--ion-color-danger);
+    font-size: 0.8em;
+    font-style: italic;
+}

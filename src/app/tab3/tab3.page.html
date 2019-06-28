@@ -1,0 +1,37 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-title>Perfil</ion-title>
+        <ion-buttons slot="primary">
+            <ion-button color="light" (click)="logout()">
+                Sair
+                <ion-icon slot="end" name="log-out"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div padding>
+        <ion-text color="medium"><h3>Olá,</h3></ion-text>
+        <ion-text color="dark"><h4>{{ authService.user.name }}</h4></ion-text>
+        <ion-text color="tertiary" (click)="changeNameAlert()"><p class="change">Alterar meu nome</p></ion-text>
+    </div>
+
+    <div padding class="content">
+        <ion-text color="medium"><h3>Seu e-mail é:</h3></ion-text>
+        <ion-text color="dark"><h4>{{ authService.user.email }}</h4></ion-text>
+        <ion-text color="tertiary" (click)="changeEmailAlert()"><p class="change">Alterar meu e-mail</p></ion-text>
+    </div>
+
+    <div padding class="content">
+        <ion-text color="medium"><h3>Seu telefone é:</h3></ion-text>
+        <ion-text color="dark"><h4>{{ authService.user.phone }}</h4></ion-text>
+        <ion-text color="tertiary" (click)="changePhoneAlert()"><p class="change">Alterar meu telefone</p></ion-text>
+    </div>
+
+    <div padding class="content">
+        <ion-text color="medium"><h3>Seus pedidos são entregues em:</h3></ion-text>
+        <ion-text color="dark"><h4>{{ authService.user.address }}</h4></ion-text>
+        <ion-text color="tertiary" (click)="changeAddressAlert()"><p class="change">Alterar meu endereço</p></ion-text>
+    </div>
+</ion-content>

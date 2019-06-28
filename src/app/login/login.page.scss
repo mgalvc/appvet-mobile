@@ -1,0 +1,22 @@
+ion-item {
+    margin-top: 20px;
+    --highlight-color-valid: var(--ion-color-primary);
+}
+
+.forgot-password {
+    text-decoration: none;
+    font-style: italic;
+    font-size: 0.8em;
+}
+
+.register {
+    text-decoration: none;
+    margin-top: 30px;
+    font-size: 0.9em;
+}
+
+.logo {
+    width: 70%;
+    margin: auto;
+    padding: 45px 0 10px 0;
+}
