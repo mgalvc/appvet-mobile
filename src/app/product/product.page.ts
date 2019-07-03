@@ -30,6 +30,7 @@ export class ProductPage implements OnInit {
     addToCart() {
         // @ts-ignore
         this.cart.addItem(this.product.id, this.product.name, this.product.price, this.product.picture, 1);
+        this.global.showMessage('success', 'Item adicionado ao carrinho');
     }
 
 }

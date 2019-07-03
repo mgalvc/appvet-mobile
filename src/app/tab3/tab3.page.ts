@@ -17,7 +17,7 @@ export class Tab3Page {
 
     async changeNameAlert() {
         const alert = await this.alertController.create({
-            header: 'Qual o seu novo nome?',
+            header: 'Qual o seu nome?',
             inputs: [
                 {
                     name: 'name',
@@ -47,7 +47,7 @@ export class Tab3Page {
 
     async changeEmailAlert() {
         const alert = await this.alertController.create({
-            header: 'Qual o seu novo e-mail?',
+            header: 'Qual o seu e-mail?',
             inputs: [
                 {
                     name: 'email',
@@ -76,13 +76,27 @@ export class Tab3Page {
     }
 
     async changeAddressAlert() {
+        let address = this.authService.user.address.split('//');
         const alert = await this.alertController.create({
-            header: 'Qual o seu novo endereço?',
+            header: 'Qual o seu endereço?',
             inputs: [
                 {
-                    name: 'address',
+                    name: 'street',
                     type: 'text',
-                    value: this.authService.user.address
+                    placeholder: 'Rua',
+                    value: address[0]
+                },
+                {
+                    name: 'number',
+                    type: 'text',
+                    placeholder: 'Número',
+                    value: address[1]
+                },
+                {
+                    name: 'neighborhood',
+                    type: 'text',
+                    placeholder: 'Bairro',
+                    value: address[2]
                 }
             ],
             buttons: [
@@ -98,8 +112,8 @@ export class Tab3Page {
         await alert.present();
         const { data } = await alert.onDidDismiss();
 
-        if (data.values.address) {
-            this.authService.changeAddress(data.values.address);
+        if (data.values.street && data.values.neighborhood && data.values.number) {
+            this.authService.changeAddress(`${data.values.street}//${data.values.number}//${data.values.neighborhood}`);
         } else {
             console.log('inseriu inválido');
         }

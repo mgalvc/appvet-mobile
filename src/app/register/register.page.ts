@@ -22,6 +22,10 @@ export class RegisterPage implements OnInit {
     ngOnInit() {
     }
 
+    goBack() {
+        this.router.navigateByUrl('login');
+    }
+
     submit() {
         this.global.http.post(this.global.baseURL + '/clients', this.user)
             .subscribe((response) => {

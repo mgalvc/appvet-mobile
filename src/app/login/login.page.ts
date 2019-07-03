@@ -45,6 +45,7 @@ export class LoginPage implements OnInit {
                     console.log('cool');
                     this.authService.saveUser(response);
                     this.router.navigateByUrl('');
+                    this.authService.loadShippingInfo();
                 } else {
                     // @ts-ignore
                     console.log(response.error);

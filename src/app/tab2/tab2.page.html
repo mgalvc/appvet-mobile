@@ -56,18 +56,61 @@
         </div>
 
         <div *ngIf="selectedSegment === 'sent'">
-            Vai exibir os pedidos já enviados
+            <ion-card *ngFor="let order of cartService.sentOrders">
+                <ion-card-header>
+                    <ion-card-subtitle>
+                        <ion-chip color="secondary">
+                            <ion-label>Saiu para entrega: {{ order.sent_at }}</ion-label>
+                        </ion-chip>
+                        <p>{{ order.delivery_address }}</p>
+                    </ion-card-subtitle>
+                    <ion-card-title color="tertiary">R$ {{ order.price }}</ion-card-title>
+                </ion-card-header>
+
+                <ion-card-content>
+                    <ion-list>
+                        <ion-item *ngFor="let item of order.items">
+                            <ion-label text-wrap color="medium">{{ item.quantity }}x {{ item.name }}</ion-label>
+                        </ion-item>
+                    </ion-list>
+                    <ion-button (click)="receive(order.id)" color="success" size="small">
+                        <ion-icon slot="start" name="checkmark"></ion-icon>
+                        Recebido
+                    </ion-button>
+                </ion-card-content>
+            </ion-card>
         </div>
 
         <div *ngIf="selectedSegment === 'received'">
-            Vai exibir os pedidos já recebidos
+            <ion-card *ngFor="let order of cartService.receivedOrders">
+                <ion-card-header>
+                    <ion-card-subtitle>
+                        <ion-chip color="secondary">
+                            <ion-label>Recebido: {{ order.updated_at }}</ion-label>
+                        </ion-chip>
+                        <p>{{ order.delivery_address }}</p>
+                    </ion-card-subtitle>
+                    <ion-card-title color="tertiary">R$ {{ order.price }}</ion-card-title>
+                </ion-card-header>
+
+                <ion-card-content>
+                    <ion-list>
+                        <ion-item *ngFor="let item of order.items">
+                            <ion-label text-wrap color="medium">{{ item.quantity }}x {{ item.name }}</ion-label>
+                        </ion-item>
+                    </ion-list>
+                </ion-card-content>
+            </ion-card>
         </div>
     </div>
 </ion-content>
 
-<ion-footer *ngIf="selectedSegment === 'open'">
+<ion-footer *ngIf="selectedSegment === 'open' && cartService.openItems.length > 0">
     <ion-toolbar>
-        <ion-title>Total: R$ {{ totalPrice() }}</ion-title>
+        <ion-title>
+            Total: R$ {{ totalPrice() }}
+            <ion-text [color]="shippingInfo.color" class="shipping-info">{{shippingInfo.text}}</ion-text>
+        </ion-title>
         <ion-buttons slot="end">
             <ion-button (click)="confirm()" [disabled]="noOpenItems()" color="success">
                 Confirmar

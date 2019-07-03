@@ -11,20 +11,27 @@ import {GlobalService} from '../services/global.service';
 export class Tab2Page {
     selectedSegment = 'open';
     items = [];
+    shippingInfo: any;
 
     constructor(private global: GlobalService, private cartService: CartService, public alertController: AlertController, public actionsController: ActionSheetController) {}
 
     change(event) {
         if (this.selectedSegment === 'open') {
             this.cartService.loadWaitingItemsFromBack();
+            this.loadShippingInfo();
+        } else if (this.selectedSegment === 'sent') {
+            this.cartService.loadSentItemsFromBack();
+        } else {
+            this.cartService.loadReceivedItemsFromBack();
         }
     }
 
     ionViewDidEnter() {
         this.cartService.loadWaitingItemsFromBack();
+        this.loadShippingInfo();
     }
 
-    totalPrice() {
+    totalNumberPrice() {
         let total = 0;
 
         for (let item of this.cartService.openItems) {
@@ -32,7 +39,22 @@ export class Tab2Page {
                 total += parseFloat(item.price.replace(',', '.')) * item.quantity;
         }
 
-        return total.toFixed(2).toString().replace('.', ',');
+        return total;
+    }
+
+    totalPrice() {
+        return this.totalNumberPrice().toFixed(2).toString().replace('.', ',');
+    }
+
+    loadShippingInfo() {
+        let tax = this.cartService.getShippingTax(this.totalNumberPrice());
+        console.log('taxa ' + tax);
+
+        if (tax === 0) {
+            this.shippingInfo = { color: 'success', text: 'Frete grátis!' };
+        } else {
+            this.shippingInfo = { color: 'danger', text: ` + R$ ${tax} de frete` };
+        }
     }
 
     getStatus(status) {
@@ -43,9 +65,9 @@ export class Tab2Page {
         }
     }
 
-    async confirm() {
+    async receive(orderId) {
         const alert = await this.alertController.create({
-            message: `Confirma o pedido a ser entregue no endereço <b>${this.global.address}?</b>`,
+            message: `Confirma o recebimento deste pedido?</b>`,
             buttons: [
                 {
                     text: 'Não',
@@ -54,12 +76,42 @@ export class Tab2Page {
                 {
                     text: 'Sim',
                     handler: () => {
-                        this.cartService.confirmOpenItems();
+                        this.cartService.receiveOrder(orderId);
                     }
                 }
             ]
         });
+
         await alert.present();
+    }
+
+    async confirm() {
+        let alert;
+
+        if (this.global.noAddress()) {
+            alert = await this.alertController.create({
+                message: `Vá até a aba <b>Meu Perfil</b> e termine de preencher seus dados antes de continuar!`,
+            });
+        } else {
+            alert = await this.alertController.create({
+                message: `Confirma o pedido a ser entregue no endereço <b>${this.global.address.split('//').join(', ')}?</b>`,
+                buttons: [
+                    {
+                        text: 'Não',
+                        role: 'Cancel'
+                    },
+                    {
+                        text: 'Sim',
+                        handler: () => {
+                            this.cartService.confirmOpenItems();
+                        }
+                    }
+                ]
+            });
+        }
+
+        await alert.present();
+        this.loadShippingInfo();
     }
 
     noOpenItems() {
@@ -75,6 +127,7 @@ export class Tab2Page {
                     icon: 'add',
                     handler: () => {
                         this.cartService.addOneToItem(item.cartId);
+                        this.loadShippingInfo();
                     }
                 },
                 {
@@ -82,6 +135,7 @@ export class Tab2Page {
                     icon: 'remove',
                     handler: () => {
                         this.cartService.removeOneFromItem(item.cartId)
+                        this.loadShippingInfo();
                     }
                 },
                 {
@@ -89,6 +143,7 @@ export class Tab2Page {
                     icon: 'trash',
                     handler: () => {
                         this.cartService.deleteItem(item.cartId);
+                        this.loadShippingInfo();
                     }
                 }
             ]

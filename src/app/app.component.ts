@@ -34,6 +34,7 @@ export class AppComponent {
         this.authService.hasValidToken()
             .then(() => {
                 this.router.navigateByUrl('');
+                this.authService.loadShippingInfo();
             })
             .catch(() => {
                 this.router.navigateByUrl('login');

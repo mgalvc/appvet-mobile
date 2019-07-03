@@ -67,6 +67,15 @@ export class AuthService {
     //     })
     // }
 
+    loadShippingInfo() {
+        this.global.http.get(`${this.global.baseURL}/clients/${this.user.id}/shipping`, this.global.getHeader())
+            .subscribe((response) => {
+                this.global.shippingInfo = response;
+            }, (error) => {
+                console.log(error);
+            })
+    }
+
     async loadData() {
         await this.global.storage.get('user').then((value) => {
             this.user.setData(value);
@@ -125,6 +134,7 @@ export class AuthService {
                 if (response.success) {
                     this.user.address = address;
                     this.storeData();
+                    this.loadShippingInfo();
                 }
             }, (error) => {
                 console.log(error)

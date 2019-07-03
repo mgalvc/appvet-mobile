@@ -31,7 +31,7 @@
 
     <div padding class="content">
         <ion-text color="medium"><h3>Seus pedidos são entregues em:</h3></ion-text>
-        <ion-text color="dark"><h4>{{ authService.user.address }}</h4></ion-text>
+        <ion-text color="dark"><h4>{{ authService.user.address.split('//').join(', ') }}</h4></ion-text>
         <ion-text color="tertiary" (click)="changeAddressAlert()"><p class="change">Alterar meu endereço</p></ion-text>
     </div>
 </ion-content>

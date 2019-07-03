@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
+import {ToastController} from '@ionic/angular';
 
 @Injectable({
     providedIn: 'root'
@@ -12,8 +13,9 @@ export class GlobalService {
     public id: number;
     public address: string;
     public phone: string;
+    public shippingInfo: any;
 
-    constructor(public http: HttpClient, public storage: Storage) {
+    constructor(public http: HttpClient, public storage: Storage, private toast: ToastController) {
         // this.baseURL = 'http://localhost:3000';
         this.baseURL = 'http://10.0.0.111:3000';
         this.httpHeaders = {
@@ -23,16 +25,29 @@ export class GlobalService {
         };
     }
 
+    async showMessage(type, message) {
+        const t = await this.toast.create({
+            message: message,
+            color: type,
+            duration: 1500
+        });
+        t.present();
+    }
+
     setToken(token) {
         this.token = token;
     }
 
     setId(id) {
-        this.id = 1;
+        this.id = id;
     }
 
     setAddress(address) {
         this.address = address;
+    }
+
+    noAddress() {
+        return this.address === null || this.address.trim() === '';
     }
 
     setPhone(phone) {
